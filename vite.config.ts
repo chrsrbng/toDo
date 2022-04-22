@@ -57,6 +57,7 @@ export default ({ mode }) => {
       'process.env.VITE_API_URL': `"${process.env.VITE_API_URL}"`,
       'process.env.VITE_SECRET_KEY': `"${process.env.VITE_SECRET_KEY}"`,
       'process.env.MODE': `"${mode}"`,
+      'process.env.TODO_URL': `"${process.env.TODO_URL}"`
     },
   });
 };
