@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {
   ActionSection,
   ActionTextfieldContainer,
@@ -10,15 +9,14 @@ import {
   ListSection,
   ToDoContainer,
   TodoListCardContainer
-} from "./css/css"
-
-import ToDosDAO from '../../../shared/utils/dao/ToDos'
-import UserDAO from '../../../shared/utils/dao/Users'
+} from "../../../shared/assets/styled/ToDo"
+import ToDosDAO from '../../../shared/services/ToDos'
+import UserDAO from '../../../shared/services/Users'
 
 import { AddCircleRounded, ModeEditOutlineRounded, DeleteOutlineRounded, SaveRounded } from '@mui/icons-material'
 import { TextField, IconButton } from '@mui/material'
-import { IToDosParams } from "app/shared/utils/interface/ToDos"
-import { IUserInfoParams } from "app/shared/utils/interface/Users"
+import { IToDosParams } from "app/shared/interface/ToDos"
+import { IUserInfoParams } from "app/shared/interface/Users"
 import { AxiosResponse } from "axios"
 import { useState, KeyboardEvent, useEffect, useCallback } from 'react'
 
@@ -33,21 +31,19 @@ const ToDo = () => {
   })
 
   const processUserId = async () => {
-    const userDao = new UserDAO()
-    const ipAddress = await userDao.getIp()
+    const ipAddress = await UserDAO.getIp()
     const ip = ipAddress.data.result.ip.split(':')[3]
-    let tempUserInfo: AxiosResponse = await userDao.getUserId(ip)
+    let tempUserInfo: AxiosResponse = await UserDAO.getUserId(ip)
 
     if (!tempUserInfo.data.result) {
-      tempUserInfo = await userDao.addUserIp(ip)
+      tempUserInfo = await UserDAO.addUserIp(ip)
     }
 
     setUserInfo(tempUserInfo.data.result)
   }
 
   const getAllToDos = useCallback(async () => {
-    const toDosDao = new ToDosDAO()
-    const allTodos = await toDosDao.getAllToDo(userInfo.id)
+    const allTodos = await ToDosDAO.getAllToDo(userInfo.id)
 
     if (allTodos.data.result.length) {
       const tempToDo = allTodos.data.result.map((todo: IToDosParams) => (
@@ -64,9 +60,8 @@ const ToDo = () => {
   }, [getAllToDos])
 
   const handleDeleteButton = async (id: number) => {
-    const toDosDao = new ToDosDAO()
     const tempTodo = toDo.filter((list) => list.id !== id)
-    await toDosDao.deleteToDo(id)
+    await ToDosDAO.deleteToDo(id)
 
     setToDo(tempTodo)
   }
@@ -103,19 +98,18 @@ const ToDo = () => {
 
   const handleAddButton = async () => {
     if (description) {
-      const temp = [...toDo]
-      const toDosDao = new ToDosDAO()
-      const toDoInfo = await toDosDao.addToDo({
+      const tempToDo = [...toDo]
+      const toDoInfo = await ToDosDAO.addToDo({
         userId: userInfo.id,
         description
       })
 
-      temp.push({
+      tempToDo.push({
         id: toDoInfo.data.result.id,
         description
       })
 
-      setToDo(temp)
+      setToDo(tempToDo)
       setDescription('')
       setIsEdit(false)
     }
@@ -124,8 +118,7 @@ const ToDo = () => {
   const updateData = async (id: number) => {
     if (description) {
       let temp = [...toDo]
-      const toDosDao = new ToDosDAO()
-      await toDosDao.updateById({id, description})
+      await ToDosDAO.updateById({id, description})
 
       temp = temp.map((list) => (list.id === id) ? { ...list, description } : list)
 
@@ -162,7 +155,7 @@ const ToDo = () => {
                 />
               </ActionTextfieldContainer>
               <IconButton color="primary"
-                onClick={() => isEdit ? updateData(idToEdit) : console.log('isEdit', isEdit)}>
+                onClick={() => isEdit ? updateData(idToEdit) : handleAddButton()}>
                 {
                   isEdit ?
                     <SaveRounded color="primary"

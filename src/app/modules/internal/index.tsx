@@ -1,5 +1,6 @@
 import ToDo from "./todo"
-import { DivContainer } from "./todo/css/css"
+
+import { DivContainer } from "../../shared/assets/styled/Global"
 
 const App = () => (
     <DivContainer>

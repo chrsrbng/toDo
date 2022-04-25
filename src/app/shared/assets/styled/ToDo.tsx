@@ -1,10 +1,5 @@
 import styled from "styled-components"
 
-export const DivContainer = styled.div`
-  height: 100vh;
-  background: #1e1f29;
-`
-
 export const ToDoContainer = styled.div`
   height: 100%;
   display: grid;

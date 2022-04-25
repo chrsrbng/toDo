@@ -10,13 +10,13 @@ class ToDos {
       this.todoUrl = TODO_URL as string
     }
 
-    public addToDo = (data: IToDosCreateParams) => axios({
+    addToDo = (data: IToDosCreateParams) => axios({
         method: 'POST',
         url: `${this.todoUrl}/api/v1/todos`,
         data
       }).catch((err) => err?.message || err)
     
-    public getAllToDo = (userId: number) => axios({
+    getAllToDo = (userId: number) => axios({
       method: 'GET',
       url: `${this.todoUrl}/api/v1/todos`,
       params: {
@@ -24,7 +24,7 @@ class ToDos {
       }
     })
 
-    public deleteToDo = (id: number) => axios({
+    deleteToDo = (id: number) => axios({
       method: 'POST',
       url: `${this.todoUrl}/api/v1/todos/deleteById`,
       params: {
@@ -32,11 +32,13 @@ class ToDos {
       }
     })
 
-    public updateById = (data: IToDosParams) => axios({
+    updateById = (data: IToDosParams) => axios({
       method: 'POST',
       url: `${this.todoUrl}/api/v1/todos/updateById`,
       data
     })
 }
 
-export default ToDos
+const toDos = new ToDos()
+
+export default toDos
