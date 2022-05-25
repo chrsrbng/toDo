@@ -3,7 +3,7 @@
   "version": "0.3.3",
   "description": "Boilerplate react js with typescript and vite",
   "private": true,
-  "author": "Emmanuel Nipal <emnnipal@gmail.com>",
+  "author": "Chris Bryan Rabang <chrisrabang@gmail.com>",
   "license": "ISC",
   "scripts": {
     "test": "jest",
