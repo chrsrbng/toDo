@@ -1,1 +1,1 @@
-export const { TODO_URL } = process.env
+export const TODO_URL = process.env.TODO_URL || '';
